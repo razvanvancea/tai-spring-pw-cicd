@@ -15,7 +15,8 @@
     "generate": "npx playwright codegen https://tai-shop.razvanvancea.ro",
     "format": "npx prettier --write .",
     "test:visual": "npx playwright test --config=pw-visual.config.ts",
-    "lint": "npx tsc --noEmit && npx eslint tests/**"
+    "lint": "npx tsc --noEmit && npx eslint tests/**",
+     "test:api": "npx playwright test api-tests --config=api-pw.config.ts"
   },
   "keywords": [],
   "author": "",

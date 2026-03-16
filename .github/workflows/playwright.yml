@@ -4,6 +4,10 @@ on:
     branches: [main, master]
   pull_request:
     branches: [main, master]
+  workflow_dispatch:
+    description: 'manual trigger'
+  schedule:
+    - cron: '30 11 3 * *'
 jobs:
   functional-e2e-tests:
     timeout-minutes: 60

@@ -7,11 +7,16 @@ on:
   workflow_dispatch:
     description: 'manual trigger'
   schedule:
-    - cron: '30 11 3 * *'
+    - cron: '30 11 3 * *' # At 03:00 on Monday
 jobs:
   functional-e2e-tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3, 4]
+        shardTotal: [4]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,11 +27,11 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        run: npm run test:smoke
+        run: npm run test:smoke -- --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }} --pass-with-no-tests
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: e2e-playwright-report
+          name: playwright-report
           path: playwright-report/
           retention-days: 30
 
@@ -48,6 +53,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: visual-playwright-report
+          name: playwright-report
           path: playwright-report/
           retention-days: 30

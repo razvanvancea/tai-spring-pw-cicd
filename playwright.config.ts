@@ -10,7 +10,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: [['html'], ['list']],
+  reporter: [['html'], ['list'], ['blob']],
   use: {
     trace: 'retain-on-failure',
     video: 'off',
